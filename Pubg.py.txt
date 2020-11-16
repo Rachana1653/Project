@@ -1,0 +1,145 @@
+import matplotlib.pyplot as plt
+# all import lib is here
+import pandas as pd
+import seaborn as sb
+import pytest
+# task 1
+
+pubg_data = pd.read_csv('pubg.csv')
+print(pubg_data)
+print()
+# task 2
+data_type = pubg_data.dtypes
+print(data_type)
+print()
+
+# task 3
+summary = pubg_data.describe()
+print(summary)
+print()
+
+# task 4
+average_person = pubg_data['kills'].mean()
+print(F"Average {average_person} people kills")
+print()
+# task 5
+how_many_kills = pubg_data['kills'].quantile(0.99)
+print(F"99% people have {how_many_kills} kills")
+print()
+
+# task 6
+most_kills = pubg_data['kills'].max()
+print(F"{most_kills} most kills ever recorded.")
+print()
+
+# task 7
+print(pubg_data.columns)
+print()
+
+# task 8
+data_graph = (sb.distplot(pubg_data['matchDuration']))
+print(plt.show())
+data_graph_max_duration = (sb.distplot(pubg_data['matchDuration'].abs()))
+print(data_graph_max_duration)
+
+# print("Match duration high during 1250 to 1500 mostly.")
+print()
+
+# task 9
+
+data_graph1 = sb.distplot(pubg_data['walkDistance'])
+plt.show()
+
+# task 10
+# %matplotlib inline
+plt.style.use('classic')
+plt.figure()
+
+plt.subplot(2, 1, 1)
+plt.plot(pubg_data['matchDuration'], '-')
+plt.xlabel("Match Duration")
+
+plt.subplot(2, 1, 2)
+plt.plot(pubg_data['walkDistance'], '--')
+plt.xlabel("walkDistance")
+
+plt.show()
+
+print()
+
+# task 11
+
+plt.style.use('classic')
+plt.figure()
+
+plt.subplot(1, 2, 1)
+plt.plot(pubg_data['matchDuration'], '-')
+plt.xlabel("Match Duration")
+
+plt.subplot(1, 2, 2)
+plt.plot(pubg_data['walkDistance'])
+plt.xlabel("walkDistance")
+plt.show()
+print()
+#
+# # task 12
+# sb.pairplot(pubg_data, hue='maxPlace', palette='numGroups')
+# plt.show()    # not exe
+# print("12")
+
+# task 13
+unique_values = pd.unique(pubg_data["matchType"]);
+print(F"unique value of match type is :{unique_values}");
+l_uni = len(unique_values)
+print(l_uni)
+print(F"Count of unique value in matchType is  :{l_uni}")
+print()
+
+# task 14
+
+sb.barplot(pubg_data['matchType'], pubg_data['killPoints']);
+plt.show()
+sb.barplot(pubg_data['matchType'],pubg_data['weaponsAcquired']);
+# task 15
+sb.barplot(pubg_data['matchType'],pubg_data['weaponsAcquired']);
+plt.show()
+print()
+
+# task 16
+
+Categorical_columns = pubg_data.select_dtypes('category').columns
+print(Categorical_columns)
+print()
+
+# Task 17
+sb.boxplot(x='matchType', y='winPlacePerc', data=pubg_data);
+plt.show()
+print()
+
+# Task 18
+sb.boxplot(x='matchType', y='matchDuration', data=pubg_data);
+plt.show()
+print()
+
+# task 19
+sb.boxplot(x='matchDuration', y='matchType', data=pubg_data);
+plt.show()
+print()
+
+# Task 20
+pubg_data['KILL'] = pubg_data['headshotKills'] + pubg_data['teamKills'] + pubg_data['roadKills']
+print("KILL :", pubg_data['KILL'])
+
+# task 21
+print("winPlacePerc :", pubg_data['winPlacePerc'].round(decimals=2));
+print()
+
+# Task 22
+mean = []
+for i in range(100):
+    for j in range(0, 1000, 50):
+        temp = pubg_data['damageDealt'].head(j).mean()
+        mean.append(temp)
+
+sb.distplot(x=mean)
+plt.show()
